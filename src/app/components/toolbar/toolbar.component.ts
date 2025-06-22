@@ -1,5 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SharedModule } from '../../shared.module';
+import { ShopStore } from '../../store/shop.store';
 
 @Component({
     selector: 'app-toolbar',
@@ -11,8 +12,5 @@ import { SharedModule } from '../../shared.module';
     },
 })
 export class ToolbarComponent {
-    readonly searchValue = signal('');
-
-    readonly cartCount = signal(2);
-    readonly cartActive = computed(() => this.cartCount() > 0);
+    readonly store = inject(ShopStore);
 }
