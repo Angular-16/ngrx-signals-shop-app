@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ItemCardComponent } from '../item-card/item-card.component';
-import { sampleProductItems } from './view-model/product-item.vm';
+import { ShopStore } from '../../store/shop.store';
 
 @Component({
     selector: 'app-items-list',
@@ -9,5 +9,5 @@ import { sampleProductItems } from './view-model/product-item.vm';
     styleUrl: './items-list.component.scss',
 })
 export class ItemsListComponent {
-    readonly products = signal(sampleProductItems);
+    readonly store = inject(ShopStore);
 }
