@@ -1,4 +1,4 @@
-import { Component, input, model, output, signal } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { SharedModule } from '../../shared.module';
 
 @Component({
@@ -10,6 +10,6 @@ import { SharedModule } from '../../shared.module';
 export class QuantityComponent {
     readonly amount = input.required();
 
-    readonly increment = output();
-    readonly decrement = output();
+    readonly increment = output<void>();
+    readonly decrement = output<void>();
 }

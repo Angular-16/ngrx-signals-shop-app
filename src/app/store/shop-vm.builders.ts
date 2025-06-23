@@ -15,6 +15,10 @@ export function buildProductListVm(
     function buildProductItems(): ProductItemVm[] {
         const word = searchWord.trim().toLocaleLowerCase();
 
+        if (!word) {
+            return [];
+        }
+
         return products
             .filter((product) =>
                 product.name.toLocaleLowerCase().includes(word)
