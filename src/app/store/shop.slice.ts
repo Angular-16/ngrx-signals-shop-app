@@ -16,3 +16,5 @@ export const initialShopSlice: ShopSlice = {
     cardVisible: false,
     taxRate: 0.08,
 };
+
+export type PersistedShopSlice = Pick<ShopSlice, 'cartQuantity'>;

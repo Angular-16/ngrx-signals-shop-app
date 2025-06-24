@@ -2,12 +2,13 @@ import {
     patchState,
     signalStore,
     withComputed,
+    withHooks,
     withMethods,
     withState,
 } from '@ngrx/signals';
-import { initialShopSlice } from './shop.slice';
+import { initialShopSlice, PersistedShopSlice } from './shop.slice';
 import { buildCartVm, buildProductListVm } from './shop-vm.builders';
-import { computed } from '@angular/core';
+import { computed, effect, Signal } from '@angular/core';
 import * as updaters from './shop.updater';
 
 export const ShopStore = signalStore(
@@ -42,5 +43,26 @@ export const ShopStore = signalStore(
         decrementQty: (id: string) =>
             patchState(store, updaters.decrementQtyUpdater(id)),
         checkout: () => patchState(store, updaters.checkoutUpdater()),
+    })),
+    withHooks((store) => ({
+        onInit() {
+            const ITEM_NAME = 'cartShop';
+            const persisted: Signal<PersistedShopSlice> = computed(() => ({
+                cartQuantity: store.cartQuantity(),
+            }));
+
+            const persistedRawData = localStorage.getItem(ITEM_NAME);
+            if (persistedRawData) {
+                const persistedData = JSON.parse(
+                    persistedRawData
+                ) as PersistedShopSlice;
+                patchState(store, persistedData);
+            }
+
+            effect(() => {
+                const persistedValue = persisted();
+                localStorage.setItem(ITEM_NAME, JSON.stringify(persistedValue));
+            });
+        },
     }))
 );
